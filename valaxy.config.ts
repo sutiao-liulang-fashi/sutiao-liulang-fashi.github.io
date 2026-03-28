@@ -7,17 +7,13 @@ const sidebar =  [
     link: '/start/',
   },
   {
-    text: '占位',
+    text: '乐理',
     collapsed: false,
     items: [
       {
-        text: '占位1',
-        link: '/start/',
-      },
-      {
-        text: '占位2',
-        link: '/start/start/',
-      },
+        text: '介绍',
+        link: '/yueli/',
+      }
     ],
   },
 ]
