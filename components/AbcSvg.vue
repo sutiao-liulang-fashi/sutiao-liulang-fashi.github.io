@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
-import * as ABCJS from "abcjs"
+import { AbcRenderer } from './core/abcjsHandler'
+import type * as ABCJS from "abcjs"
 
 interface Props {
   /** ABC 记谱法字符串 */
@@ -12,7 +13,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-options: () => ({
+  options: () => ({
     responsive: "resize",
     scale: 1.0,
     paddingtop: 10,
@@ -29,90 +30,43 @@ const loading = ref(true)
 // 错误状态
 const error = ref<string | null>(null)
 
-/**
- * 处理 ABC 字符串，根据 showTitle 选项控制标题显示
- */
-function processAbcString(abcStr: string): string {
-  if (props.showTitle) {
-    return abcStr
-  }
-
-  // 移除标题行 (T:)
-  const lines = abcStr.split('\n')
-  const filteredLines = lines.filter(line => {
-    const trimmed = line.trim()
-    return !trimmed.startsWith('T:')
-  })
-
-  return filteredLines.join('\n')
-}
+// 渲染器实例
+let renderer: AbcRenderer | null = null
 
 /**
  * 渲染 ABC 记谱法
  */
 async function renderAbc() {
-  console.log('Rendering ABC notation:', props.abcStr)
   if (!abcContainer.value || !props.abcStr) {
     return
   }
+
   try {
-    // 清空容器
-    abcContainer.value.innerHTML = ''
-
-    // 处理 ABC 字符串
-    const processedAbcStr = processAbcString(props.abcStr)
-
-    // 等待一帧，确保容器已经渲染
-    await new Promise(resolve => requestAnimationFrame(resolve))
-
-    // 获取容器宽度
-    const containerWidth = abcContainer.value.clientWidth || 800
-
-    // 合并选项
-    const renderOptions: ABCJS.RenderOptions = {
-      responsive: "resize",
-      scale: 1.0,
-      paddingtop: 10,
-      paddingbottom: 10,
-      paddingleft: 20,
-      paddingright: 20,
-      stretchlast: false, // 不拉伸最后一行
-      staffwidth: Math.max(containerWidth - 40, 400),
-      wrap: {
-        minSpacing: 1.0,     // 最小间距
-        maxSpacing: 1.6,     // 超过此值会换行
-        preferredMeasuresPerLine: 4, // 每行首选 4 个小节
-      },
-      ...props.options,
-    }
-
-    console.log('Container width:', containerWidth)
-
-    // 使用 abcjs 渲染
-    ABCJS.renderAbc(abcContainer.value, processedAbcStr, renderOptions)
-
+    await renderer!.render(props.abcStr, props.options, props.showTitle)
     loading.value = false
     error.value = null
   } catch (err) {
     console.error('Error rendering ABC notation:', err)
-    error.value = '渲染失败：' + (err as Error).message
+    error.value = (err as Error).message
   }
 }
 
-// 组件挂载时渲染
+// 组件挂载时初始化渲染器并渲染
 onMounted(() => {
-  renderAbc()
-
-  // 监听窗口大小变化，重新渲染以适应新宽度
-  const handleResize = () => {
+  if (abcContainer.value) {
+    renderer = new AbcRenderer(abcContainer.value)
+    // 启用响应式重渲染
+    renderer.enableResponsive()
     renderAbc()
   }
-  window.addEventListener('resize', handleResize)
+})
 
-  // 组件卸载时移除监听器
-  onBeforeUnmount(() => {
-    window.removeEventListener('resize', handleResize)
-  })
+// 组件卸载时清理资源
+onBeforeUnmount(() => {
+  if (renderer) {
+    renderer.dispose()
+    renderer = null
+  }
 })
 
 // 监听 showTitle 变化
@@ -124,6 +78,11 @@ watch(() => props.showTitle, () => {
 watch(() => props.abcStr, () => {
   renderAbc()
 })
+
+// 监听 options 变化
+watch(() => props.options, () => {
+  renderAbc()
+}, { deep: true })
 </script>
 
 <template>

@@ -35,4 +35,53 @@ declare module "abcjs" {
   ): VisualObj[] | AudioObj[]
 
   export function stopAll(): void
+
+  // Synth 相关类型定义
+  export namespace synth {
+    interface CursorControl {
+      onBeat?: (beatNumber: number, totalBeats: number, totalTime: number) => void
+      onEvent?: (event: any) => void
+      onFinished?: () => void
+    }
+
+    interface SynthOptions {
+      visualObj?: VisualObj
+      audioContext?: AudioContext
+      millisecondsPerMeasure?: number
+      bpm?: number
+      soundFontUrl?: string
+      soundFontVolumeMultiplier?: number
+      program?: number
+      pan?: number
+      voiceParams?: any[]
+      callback?: (response: any) => void
+      onEnded?: () => void
+    }
+
+    class SynthController {
+      constructor()
+      load(
+        element: HTMLElement,
+        cursorControl?: CursorControl,
+        options?: SynthOptions
+      ): void
+      setTune(
+        visualObj: VisualObj,
+        audioContextParam: boolean,
+        options?: SynthOptions
+      ): Promise<any>
+      play(): void
+      pause(): void
+      restart(): void
+      stop(): void
+      setProgress(elapsedTime: number, totalTime: number): void
+      setWarp(currentTempoPercentage: number): void
+      toggleLoop(): void
+      dispose(): void
+    }
+
+    function registerAudioContext(audioContext: AudioContext): void
+    function createSynth(): any
+    function supportsAudio(): boolean
+  }
 }

@@ -8,6 +8,7 @@ valaxy-fuse-list.json
 .vite-ssg-temp
 
 temp/
+test/
 
 .DS_Store
 *.local

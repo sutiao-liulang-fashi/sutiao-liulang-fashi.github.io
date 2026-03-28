@@ -33,10 +33,13 @@ The world is not beautiful. Therefore, it is. -《奇诺之旅》
 
 
 ### 显示五线谱
-<PlayNote notes="C4 D4 E4 F4 | G4 A4 B4 c4" :show-sheet-music="true" />
+<PlayNote notes="C4 D4 E4 F4
+| G4 A4 B4 c4 |
+G1 G2 G2" :show-sheet-music="true" />
 
 ### 简单旋律
-<PlayNote notes="G4 G4 A4 A4 | G42 G42 E4 E4" :show-sheet-music="true" />
+<PlayNote notes="G4 G4 A4 A4 |
+ G42 G42 E4 E4" :show-sheet-music="true" />
 
 ### 控制标题显示
 <PlayNote notes="C4 D4 E4 F4 | G4 A4 B4 C4" :show-sheet-music="true"  :show-title="true"  />
@@ -52,3 +55,68 @@ The world is not beautiful. Therefore, it is. -《奇诺之旅》
 
 ### 反复记号
 <PlayNote notes="|: C4 D4 E4 F4 :| G4 A4" :show-sheet-music="true" />
+
+---
+
+## 简谱播放测试
+
+### 基本音阶
+<PlayJianpuNote jianpu="1 2 3 4 5 6 7" :show-sheet-music="true" />
+
+### 高八度
+<PlayJianpuNote jianpu="1' 2' 3' 4' 5' 6' 7'" :show-sheet-music="true" />
+
+### 低八度
+<PlayJianpuNote jianpu="1, 2, 3, 4, 5, 6, 7," :show-sheet-music="true" />
+
+### 带小节的音阶
+<PlayJianpuNote jianpu="1 2 3 4 | 5 6 7 1'" :show-sheet-music="true" />
+
+### 带升降号
+<PlayJianpuNote jianpu="1 2# 3 4 | 5 6 7 1'" :show-sheet-music="true" />
+
+### 带降号
+<PlayJianpuNote jianpu="1 2b 3 4 | 5 6b 7 1'" :show-sheet-music="true" />
+
+### 延长线（二分音符）
+<PlayJianpuNote jianpu="1- 2- 3- 4-" :show-sheet-music="true" />
+
+### 减半时值（八分音符）
+<PlayJianpuNote jianpu="1_ 2_ 3_ 4_" :show-sheet-music="true" />
+
+### 附点音符
+<PlayJianpuNote jianpu="1. 2. 3. 4." :show-sheet-music="true" />
+
+### 休止符
+<PlayJianpuNote jianpu="1 0 3 0 | 5 - 7 -" :show-sheet-music="true" />
+
+### 小星星
+<PlayJianpuNote jianpu="1 1 5 5 | 6 6 5- | 4 4 3 3 | 2 2 1- | 5 5 4 4 | 3 3 2- | 5 5 4 4 | 3 3 2- | 1 1 5 5 | 6 6 5- | 4 4 3 3 | 2 2 1-" :show-sheet-music="true" />
+
+### 生日快乐
+<PlayJianpuNote jianpu="5 5 6 5 1' 7 | 5 5 6 5 2' 1' | 5 5 5'' 3' 1' 7 6 | 4' 4' 3' 1' 2' 1'" :show-sheet-music="true" />
+
+### 两只老虎
+<PlayJianpuNote jianpu="1 2 3 1 | 1 2 3 1 | 3 4 5 | 3 4 5 | 5 6 5 4 3 1 | 5 6 5 4 3 1 | 2 5- | 2 5- | 1 2 3 1" :show-sheet-music="true" />
+
+### 反复记号
+<PlayJianpuNote jianpu="|: 1 2 3 1 | 5 6 5- :| 4 4 3 3 | 2 2 1-" :show-sheet-music="true" />
+
+### 自定义基音（G大调）
+<PlayJianpuNote jianpu="1 2 3 4 | 5 6 7 1'" :conversion-options="{ baseNote: 'G4', key: 'G' }" :show-sheet-music="true" />
+
+### 复杂混合
+<PlayJianpuNote jianpu="1 2# 3 4 | 5. 6 7= 1' | 1' 7 6b 5 | 4 3 2# 1" :show-sheet-music="true" />
+
+### 夕颜
+
+<PlayJianpuNote jianpu="6/2 1'/2 |
+2' 2'/2 1'/2 2'/2 3'/4 2'/4 1'/2 2'/2  |
+3'/2 5'/2 5'/2 6'/2 3'  3'/2 5'/2 |
+2' 2'/2 1'/2 2'/2 1'/2 1'/2 2'/2 |
+3'2 0 |
+6/2 1'/2 |
+2' 2' 2'/2 3'/4 2'/4 1'/2 2'/2 |
+3'/2 5'/2 5'/2 6'/2 3' 5'/2 3'/2 |
+2' 5'/2 3'/2 2'/2 6/2 6/2 1'/2 |
+1'2 0 |" :show-sheet-music="true"/>

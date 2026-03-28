@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-import { scientificToAbc, type ConversionOptions } from './core/scientificToAbc'
+import { jianpuToAbc, type ConversionOptions } from './core/jianpuToAbc'
 import { AbcAudioPlayer } from './core/abcjsHandler'
 import AbcSvg from './AbcSvg.vue'
 
 interface Props {
-  /** 科学记谱法音符（单个或多个，空格分隔） */
-  notes: string
+  /** 简谱音符字符串 */
+  jianpu: string
   /** 转换选项 */
   conversionOptions?: ConversionOptions
   /** 是否显示五线谱 */
@@ -21,7 +21,8 @@ const props = withDefaults(defineProps<Props>(), {
     meter: '4/4',
     tempo: '1/4=120',
     unitNoteLength: '1/4',
-    title: 'Play Note'
+    title: 'Jianpu Notation',
+    baseNote: 'C4'
   }),
   showSheetMusic: false,
   showTitle: false,
@@ -36,13 +37,20 @@ const error = ref<string | null>(null)
 let audioPlayer: AbcAudioPlayer | null = null
 
 /**
- * 将科学记谱法转换为 ABC 记谱法
+ * 将简谱转换为 ABC 记谱法
  */
 const abcString = computed(() => {
-  if (!props.notes || !props.notes.trim()) {
+  if (!props.jianpu || !props.jianpu.trim()) {
     return ''
   }
-  return scientificToAbc(props.notes, props.conversionOptions)
+  console.log('Converting jianpu to ABC:', props.jianpu, props.conversionOptions)
+  try {
+    return jianpuToAbc(props.jianpu, props.conversionOptions)
+  } catch (err) {
+    console.error('Error converting jianpu to ABC:', err)
+    error.value = (err as Error).message
+    return ''
+  }
 })
 
 /**
@@ -52,6 +60,7 @@ async function play() {
   if (!abcString.value) {
     return
   }
+
   console.log('Playing ABC string:', abcString.value)
   try {
     // 清除之前的错误
@@ -105,15 +114,15 @@ defineExpose({
 </script>
 
 <template>
-  <div class="play-note">
-    <!-- 显示音符信息 -->
+  <div class="play-jianpu-note">
+    <!-- 显示简谱信息 -->
     <div
       class="note-info"
-      :class="{ 'clickable': props.notes && props.notes.trim(), 'playing': isPlaying }"
-      @click="props.notes && props.notes.trim() ? play() : null"
+      :class="{ 'clickable': props.jianpu && props.jianpu.trim(), 'playing': isPlaying }"
+      @click="props.jianpu && props.jianpu.trim() ? play() : null"
     >
       <div class="note-display">
-        {{ props.notes || '无音符' }}
+        {{ props.jianpu || '无简谱' }}
       </div>
       <div v-if="isPlaying" class="playing-indicator">
         ▶ 播放中...
@@ -133,7 +142,7 @@ defineExpose({
 </template>
 
 <style scoped>
-.play-note {
+.play-jianpu-note {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -174,8 +183,9 @@ defineExpose({
   background: var(--va-c-bg-soft);
   border-radius: 0.5rem;
   color: var(--va-c-text);
+  font-family: 'Courier New', monospace;
   white-space: pre-wrap; /* 保留换行符和空格 */
-  word-break: break-word; /* 允许在单词边界换行 */
+  word-break: break-all; /* 允许在任意字符间断行 */
 }
 
 .playing-indicator {
