@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
   conversionOptions: () => ({
     key: 'C',
     meter: '4/4',
-    tempo: '1/4=120',
+    tempo: '120',
     unitNoteLength: '1/4',
     title: 'Scientific Notation'
   }),
@@ -49,7 +49,6 @@ async function play() {
   if (!abcString.value) {
     return
   }
-  console.log('Playing ABC string:', abcString.value)
   try {
     // 清除之前的错误
     error.value = null

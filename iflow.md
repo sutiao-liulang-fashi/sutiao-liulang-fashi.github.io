@@ -43,11 +43,17 @@
 sutiao/
 ├── components/          # 自定义 Vue 组件
 │   ├── core/           # 核心工具模块
-│   │   └── scientificToAbc.ts  # 科学记谱法转换工具
-│   ├── GoToPage.vue   # 自动跳转组件
-│   ├── PlayNote.vue   # 音符播放组件
-│   ├── AbcSvg.vue     # 五线谱渲染组件
-│   └── README.md
+│   │   ├── abcToAbc.ts          # ABC 到 ABC 处理工具
+│   │   ├── abcjsHandler.ts      # abcjs 音频播放和渲染处理器
+│   │   ├── jianpuToAbc.ts       # 简谱到 ABC 转换工具
+│   │   ├── jianpuToScientific.ts # 简谱到科学谱转换工具
+│   │   └── scientificToAbc.ts   # 科学谱到 ABC 转换工具
+│   ├── GoToPage.vue       # 自动跳转组件
+│   ├── AbcSvg.vue         # 五线谱渲染组件
+│   ├── AnyNote.vue        # 综合音乐记谱法工具（简谱/科学谱/ABC谱）
+│   ├── PlayAbcNote.vue    # ABC 记谱法播放组件
+│   ├── PlayJianpuNote.vue # 简谱播放组件
+│   └── PlayScientificNote.vue # 科学记谱法播放组件
 ├── layouts/             # 自定义布局
 ├── locales/             # 国际化配置
 │   ├── en.yml
@@ -59,7 +65,12 @@ sutiao/
 │   ├── about/           # 关于页面
 │   ├── music/           # 音乐相关页面
 │   ├── test/            # 测试页面
-│   └── start/           # 开始页面（包含 PlayNote 组件测试）
+│   ├── start/           # 开始页面（包含音乐功能测试）
+│   └── yueli/           # 乐理相关文档
+│       ├── 简谱转换科学谱规则V2_1.md
+│       ├── 简谱转换ABC规则V2_1.md
+│       ├── 科学谱转换ABC规则V2_1.md
+│       └── ABC规则V2_1_en.md
 ├── public/              # 静态资源
 │   ├── favicon.svg
 │   ├── pwa-192x192.png
@@ -157,9 +168,15 @@ docker build . -t sutiao:latest
 
 ## 音乐功能
 
-### 科学记谱法支持
+### 支持的记谱法
 
-项目支持科学记谱法（Scientific Pitch Notation），可以轻松在博客中嵌入音乐内容。
+项目支持三种音乐记谱法，可以轻松在博客中嵌入音乐内容：
+
+1. **科学记谱法**（Scientific Pitch Notation）
+2. **简谱**（Jianpu）
+3. **ABC 记谱法**
+
+### 科学记谱法
 
 **基本格式**: `[A-G][#b]?\d+[./\d.-]*`
 
@@ -170,44 +187,104 @@ docker build . -t sutiao:latest
 - `C4/2` - 八分音符 C
 - `C4 D4 E4 F4 | G4 A4 B4 c4` - 带小节线的旋律
 
-**快速使用**:
+**使用方法**:
 ```vue
-<PlayNote notes="C4 D4 E4 F4" />
-```
-
-**显示五线谱**:
-```vue
-<PlayNote
-  notes="C4 D4 E4 F4 G4 A4 B4 c4"
+<PlayScientificNote
+  notes="C4 D4 E4 F4"
   :show-sheet-music="true"
-  :show-title="false"
 />
 ```
 
-**自定义标题和调性**:
+### 简谱
+
+**基本格式**: `[1-7][#b]?\d+[./\d.-]*`
+
+**示例**:
+- `1'` - 高音 do
+- `1_` - 低音 do
+- `6/2` - 八分音符 la
+- `1' 2' 3' | 4' 5' 6'` - 带小节线的旋律
+
+**使用方法**:
 ```vue
-<PlayNote
-  notes="G4 A4 B4 c4"
+<PlayJianpuNote
+  notes="1' 2' 3' 4' 5'"
   :show-sheet-music="true"
   :conversion-options="{
-    title: '我的旋律',
-    key: 'G'
+    baseNote: 'C4'
   }"
 />
 ```
 
+### ABC 记谱法
+
+**格式**: 标准 ABC 记谱法，支持完整的头部信息和音符
+
+**示例**:
+```abc
+X:1
+T:我的旋律
+M:4/4
+L:1/4
+Q:120
+K:C
+C D E F | G A B c
+```
+
+**使用方法**:
+```vue
+<PlayAbcNote
+  notes="X:1
+T:我的旋律
+M:4/4
+L:1/4
+Q:120
+K:C
+C D E F | G A B c"
+  :show-sheet-music="true"
+/>
+```
+
+### AnyNote 综合工具
+
+**AnyNote** 是一个综合性的音乐记谱法工具，支持三种记谱法的输入、转换、播放和渲染。
+
+**功能特性**:
+- 支持简谱、科学谱、ABC谱三种输入方式
+- 自动转换：简谱 ↔ 科学谱 ↔ ABC谱
+- 实时五线谱渲染
+- 音频播放功能
+- 可自定义基音、拍号、速度、单位音符长度、标题
+
+**使用方法**:
+```vue
+<AnyNote />
+```
+
+**可配置参数**:
+- 基音选择（C3-B5）
+- 拍号（2/4, 3/4, 4/4, 6/8, 3/8）
+- 速度（60-160）
+- 单位音符长度（1/1, 1/2, 1/4, 1/8, 1/16）
+- 自定义标题
+
 ### 音符转换规则
 
-详细的科学记谱法到 ABC 记谱法转换规则请参考 `科学谱转换规则.md` 文档。
+详细的转换规则请参考以下文档：
+- `科学谱转换规则.md` - 科学记谱法转换规则
+- `pages/yueli/简谱转换科学谱规则V2_1.md` - 简谱到科学谱转换规则
+- `pages/yueli/简谱转换ABC规则V2_1.md` - 简谱到ABC转换规则
+- `pages/yueli/科学谱转换ABC规则V2_1.md` - 科学谱到ABC转换规则
+- `pages/yueli/ABC规则V2_1_en.md` - ABC记谱法标准（英文）
 
-**主要支持**:
-- 音符名称（A-G）
+**主要支持特性**:
+- 音符名称（A-G, 1-7）
 - 升降号（#、b、n）
-- 多八度（C3、C4、C5、C6）
-- 时值修饰符（/2、/4、2、4、.）
+- 多八度（C3-C6, 1'-1_）
+- 时值修饰符（/2、/4、2、4、.、-、_、=）
 - 连音线（-）
-- 休止符（z、Z）
-- 小节线（|、||、|:、:|）
+- 休止符（z、Z、0、-）
+- 小节线（|、||、|:、:|、::）
 - 三连音等特殊记号
 
 ### 技术实现
@@ -217,41 +294,114 @@ docker build . -t sutiao:latest
 - 通过 Vite 打包到客户端
 - 支持音频播放和五线谱渲染
 - 响应式设计，自动适应容器宽度
+- 自定义音频播放器和渲染器封装
 
 ## 自定义组件
 
-### GoToPage 组件
+### AnyNote 组件
 
-**功能**: 自动跳转组件，带加载动画
+**功能**: 综合音乐记谱法工具，支持简谱、科学谱、ABC谱的输入、转换、播放和渲染
 
-**位置**: `components/GoToPage.vue`
-
-**使用方法**:
-```markdown
-<GoToPage targetUrl="/about"/>
-```
-
-**属性**:
-- `targetUrl`: 跳转目标 URL（可选，默认为 '/'）
-
-**特性**:
-- 全屏加载动画
-- 进度条显示
-- 延时 2.5 秒后跳转
-- 保持浏览器 title 不变
-
-### PlayNote 组件
-
-**功能**: 科学记谱法音符播放组件
-
-**位置**: `components/PlayNote.vue`
+**位置**: `components/AnyNote.vue`
 
 **使用方法**:
 ```vue
-<PlayNote
+<AnyNote />
+```
+
+**功能特性**:
+- 支持三种记谱法输入（简谱、科学谱、ABC谱）
+- 自动转换：简谱 ↔ 科学谱 ↔ ABC谱
+- 实时五线谱渲染
+- 音频播放功能
+- 可自定义基音、拍号、速度、单位音符长度、标题
+- 标签切换界面
+- 播放/停止/复位控制
+- 显示转换后的ABC字符串
+
+### PlayAbcNote 组件
+
+**功能**: ABC 记谱法音符播放组件
+
+**位置**: `components/PlayAbcNote.vue`
+
+**使用方法**:
+```vue
+<PlayAbcNote
+  notes="X:1
+T:我的旋律
+M:4/4
+L:1/4
+Q:120
+K:C
+C D E F | G A B c"
+  :show-sheet-music="true"
+/>
+```
+
+**属性**:
+- `notes` (必需): ABC 记谱法字符串
+- `conversionOptions` (可选): 转换选项
+  - `key`: 调性，默认 'C'
+  - `meter`: 拍号，默认 '4/4'
+  - `tempo`: 速度，默认 '120'
+  - `unitNoteLength`: 记录单位，默认 '1/4'
+  - `title`: 标题，默认 'ABC Notation'
+- `showSheetMusic` (可选): 是否显示五线谱，默认 false
+
+**特性**:
+- 点击音符显示区域即可播放
+- 支持播放状态指示
+- 可选显示五线谱
+- 自动检测头部信息
+- 显示包含头部信息标记
+
+### PlayJianpuNote 组件
+
+**功能**: 简谱音符播放组件
+
+**位置**: `components/PlayJianpuNote.vue`
+
+**使用方法**:
+```vue
+<PlayJianpuNote
+  notes="1' 2' 3' 4' 5'"
+  :show-sheet-music="true"
+  :conversion-options="{
+    baseNote: 'C4'
+  }"
+/>
+```
+
+**属性**:
+- `notes` (必需): 简谱音符字符串
+- `conversionOptions` (可选): 转换选项
+  - `key`: 调性，默认 'C'
+  - `meter`: 拍号，默认 '4/4'
+  - `tempo`: 速度，默认 '120'
+  - `unitNoteLength`: 记录单位，默认 '1/4'
+  - `title`: 标题，默认 'Jianpu Notation'
+  - `baseNote`: 基音，默认 'C4'
+- `showSheetMusic` (可选): 是否显示五线谱，默认 false
+
+**特性**:
+- 点击音符显示区域即可播放
+- 支持播放状态指示
+- 可选显示五线谱
+- 支持高低八度（' 和 ,）
+- 支持升降号
+
+### PlayScientificNote 组件
+
+**功能**: 科学记谱法音符播放组件
+
+**位置**: `components/PlayScientificNote.vue`
+
+**使用方法**:
+```vue
+<PlayScientificNote
   notes="C4 D4 E4 F4"
   :show-sheet-music="true"
-  :show-title="false"
 />
 ```
 
@@ -260,18 +410,16 @@ docker build . -t sutiao:latest
 - `conversionOptions` (可选): 转换选项
   - `key`: 调性，默认 'C'
   - `meter`: 拍号，默认 '4/4'
-  - `tempo`: 速度，默认 '1/4=120'
+  - `tempo`: 速度，默认 '120'
   - `unitNoteLength`: 记录单位，默认 '1/4'
-  - `title`: 标题，默认 'Play Note'
+  - `title`: 标题，默认 'Scientific Notation'
 - `showSheetMusic` (可选): 是否显示五线谱，默认 false
-- `showTitle` (可选): 是否显示五线谱标题，默认 false
 
 **特性**:
 - 点击音符显示区域即可播放
 - 支持播放状态指示
 - 可选显示五线谱
-- 可选显示/隐藏标题
-- 自动处理 abcjs 音频播放
+- 支持多八度（C3-C6）
 
 ### AbcSvg 组件
 
@@ -298,11 +446,152 @@ docker build . -t sutiao:latest
 - 音符多时自动换行
 - 支持自定义渲染选项
 
+### GoToPage 组件
+
+**功能**: 自动跳转组件，带加载动画
+
+**位置**: `components/GoToPage.vue`
+
+**使用方法**:
+```markdown
+<GoToPage targetUrl="/about"/>
+```
+
+**属性**:
+- `targetUrl`: 跳转目标 URL（可选，默认为 '/'）
+
+**特性**:
+- 全屏加载动画
+- 进度条显示
+- 延时 2.5 秒后跳转
+- 保持浏览器 title 不变
+
+## 核心工具模块
+
+### abcToAbc 工具
+
+**功能**: ABC 到 ABC 处理工具，用于处理和优化传入的 ABC 字符串，特别是处理头部信息的合并
+
+**位置**: `components/core/abcToAbc.ts`
+
+**主要函数**:
+- `abcToAbc(abcString, options)` - 处理 ABC 字符串
+- `hasAbcHeader(abcString)` - 检查是否包含头部信息
+- `validateAbcNotation(abcString)` - 验证 ABC 格式
+- `extractKey(abcString)` - 提取调性
+- `extractTitle(abcString)` - 提取标题
+- `extractMeter(abcString)` - 提取拍号
+- `extractTempo(abcString)` - 提取速度
+
+**使用方法**:
+```typescript
+import { abcToAbc } from './core/abcToAbc'
+
+const abcString = abcToAbc('C D E F | G A B c', {
+  key: 'C',
+  meter: '4/4',
+  tempo: '120',
+  title: 'My Tune'
+})
+```
+
+### abcjsHandler 工具
+
+**功能**: abcjs 音频播放和渲染处理器
+
+**位置**: `components/core/abcjsHandler.ts`
+
+**主要类**:
+- `AbcAudioPlayer` - ABC 音频播放器类
+- `AbcRenderer` - ABC 五线谱渲染器类
+
+**AbcAudioPlayer 功能**:
+- 播放 ABC 记谱法音频
+- 播放/停止/暂停/重试控制
+- 音量控制
+- 播放状态回调
+- 更新当前播放的 ABC 字符串
+- 资源清理
+
+**AbcRenderer 功能**:
+- 渲染 ABC 记谱法到五线谱
+- 响应式重渲染
+- 标题显示控制
+- 清空渲染容器
+- 资源清理
+
+**使用方法**:
+```typescript
+import { AbcAudioPlayer, AbcRenderer } from './core/abcjsHandler'
+
+// 创建播放器
+const player = new AbcAudioPlayer(0.8) // 默认音量 0.8
+await player.play(abcString)
+player.stop()
+
+// 创建渲染器
+const renderer = new AbcRenderer(container)
+await renderer.render(abcString, options, false)
+```
+
+### jianpuToAbc 工具
+
+**功能**: 简谱到 ABC 记谱法转换工具
+
+**位置**: `components/core/jianpuToAbc.ts`
+
+**主要函数**:
+- `jianpuToAbc(jianpuNotes, options)` - 简谱转 ABC
+- `quickConvertJianpu(jianpuNotes)` - 快速转换（使用默认选项）
+- `batchConvertJianpu(jianpuNotesArray, options)` - 批量转换
+- `validateJianpuNotation(jianpuNotes)` - 验证简谱格式
+
+**使用方法**:
+```typescript
+import { jianpuToAbc } from './core/jianpuToAbc'
+
+const abcString = jianpuToAbc('1\' 2\' 3\' | 4\' 5\' 6\'', {
+  key: 'C',
+  meter: '4/4',
+  tempo: '120',
+  title: '简谱',
+  baseNote: 'C4'
+})
+```
+
+### jianpuToScientific 工具
+
+**功能**: 简谱到科学记谱法转换工具
+
+**位置**: `components/core/jianpuToScientific.ts`
+
+**主要函数**:
+- `jianpuToScientific(jianpu, options)` - 简谱转科学谱
+- `quickConvert(jianpu)` - 快速转换
+- `batchConvert(jianpuArray, options)` - 批量转换
+- `validateJianpuNotation(jianpu)` - 验证简谱格式
+
+**使用方法**:
+```typescript
+import { jianpuToScientific } from './core/jianpuToScientific'
+
+const scientificString = jianpuToScientific('1\' 2\' 3\'', {
+  baseNote: 'C4'
+})
+// 返回: "C4 D4 E4"
+```
+
 ### scientificToAbc 工具
 
 **功能**: 科学记谱法到 ABC 记谱法转换工具
 
 **位置**: `components/core/scientificToAbc.ts`
+
+**主要函数**:
+- `scientificToAbc(scientificNotes, options)` - 科学谱转 ABC
+- `quickConvert(scientificNotes)` - 快速转换
+- `batchConvert(scientificNotesArray, options)` - 批量转换
+- `validateScientificNotation(scientificNotes)` - 验证科学谱格式
 
 **使用方法**:
 ```typescript
@@ -311,7 +600,7 @@ import { scientificToAbc } from './core/scientificToAbc'
 const abcString = scientificToAbc('C4 D4 E4 F4', {
   key: 'C',
   meter: '4/4',
-  tempo: '1/4=120',
+  tempo: '120',
   title: 'My Tune'
 })
 ```
@@ -326,8 +615,6 @@ const abcString = scientificToAbc('C4 D4 E4 F4', {
 - 小节线（|、||、|:、:|、::）
 - 三连音等特殊记号
 
-**详细规则**: 参见 `科学谱转换规则.md`
-
 ## 导航结构
 
 当前导航配置：[]
@@ -335,17 +622,17 @@ const abcString = scientificToAbc('C4 D4 E4 F4', {
 ### 侧边栏结构
 
 1. **开始** (`/start/`)
-   - 包含 PlayNote 组件测试用例
-   - 单个音符播放测试
-   - 多个音符播放测试
-   - 带升降号音符测试
-   - 不同八度音符测试
-   - 五线谱显示测试
-   - 简单旋律测试
+   - AnyNote 综合音乐记谱法工具测试
+   - 简谱播放测试（带五线谱显示）
+   - 科学谱播放测试（带五线谱显示）
+   - ABC记谱法播放测试（带五线谱显示）
 
-2. **占位**
-   - 占位1 (`/start/`)
-   - 占位2 (`/start/start/`)
+2. **乐理** (`/yueli/`)
+   - 简谱转换科学谱规则 V2.1
+   - 简谱转换ABC规则 V2.1
+   - 科学谱转换ABC规则 V2.1
+   - ABC规则 V2.1 (英文版)
+   - abc_standard_v2.1.pdf
 
 ## 部署信息
 
@@ -549,9 +836,24 @@ const abcString = scientificToAbc('C4 D4 E4 F4', {
 
 ---
 
-**最后更新**: 2026-03-27
+**最后更新**: 2026-03-28
 
 ## 更新日志
+
+### 2026-03-28
+- 新增 AnyNote 组件，支持简谱、科学谱、ABC谱三种记谱法的输入、转换、播放和渲染
+- 新增 PlayAbcNote 组件，支持 ABC 记谱法音符播放
+- 新增 PlayJianpuNote 组件，支持简谱音符播放
+- 新增 PlayScientificNote 组件，支持科学记谱法音符播放
+- 新增 abcToAbc 工具，处理和优化 ABC 字符串，特别是头部信息合并
+- 新增 abcjsHandler 工具，封装 abcjs 音频播放和渲染功能
+- 新增 jianpuToAbc 工具，支持简谱到 ABC 记谱法转换
+- 新增 jianpuToScientific 工具，支持简谱到科学记谱法转换
+- 更新 scientificToAbc 工具，增强功能并优化转换逻辑
+- 在 /start/ 页面添加 AnyNote 组件测试
+- 在 /start/ 页面添加简谱、科学谱、ABC谱的播放测试
+- 添加乐理文档（简谱转换规则、科学谱转换规则、ABC规则）
+- 更新项目文档，反映最新的功能和技术架构
 
 ### 2026-03-27
 - 添加音乐播放功能

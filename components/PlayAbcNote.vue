@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
   conversionOptions: () => ({
     key: 'C',
     meter: '4/4',
-    tempo: '1/4=120',
+    tempo: '120',
     unitNoteLength: '1/4',
     title: 'ABC Notation'
   }),
@@ -46,7 +46,6 @@ const processedAbcString = computed(() => {
   if (!props.notes || !props.notes.trim()) {
     return ''
   }
-  console.log('Processing ABC string:', props.notes, props.conversionOptions)
   try {
     return abcToAbc(props.notes, props.conversionOptions)
   } catch (err) {

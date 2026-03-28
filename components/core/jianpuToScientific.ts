@@ -112,22 +112,43 @@ function tokenizeJianpu(input: string): string[] {
       continue;
     }
 
-    // 三连音等
-    if (char === '(') {
+    // 括号（包括三连音等）
+    if (char === '(' || char === ')') {
       if (current) {
         tokens.push(current);
         current = '';
       }
 
-      // 找到对应的 )
-      let parenEnd = i + 1;
-      while (parenEnd < cleaned.length && cleaned[parenEnd] !== ')') {
-        parenEnd++;
-      }
+      if (char === '(') {
+        // 找到对应的 )
+        let parenEnd = i + 1;
+        while (parenEnd < cleaned.length && cleaned[parenEnd] !== ')') {
+          parenEnd++;
+        }
 
-      if (parenEnd < cleaned.length) {
-        tokens.push(cleaned.substring(i, parenEnd + 1));
-        i = parenEnd;
+        if (parenEnd < cleaned.length) {
+          // 提取括号内的内容
+          const parenContent = cleaned.substring(i + 1, parenEnd).trim();
+          
+          // 添加左括号
+          tokens.push('(');
+          
+          // 如果括号内不为空，分解括号内的内容
+          if (parenContent) {
+            // 对括号内的内容进行递归处理
+            const innerTokens = tokenizeJianpu(parenContent);
+            tokens.push(...innerTokens);
+          }
+          
+          // 添加右括号
+          tokens.push(')');
+          
+          i = parenEnd;
+          continue;
+        }
+      } else {
+        // 右括号
+        tokens.push(')');
         continue;
       }
     }
@@ -190,7 +211,7 @@ function parseJianpuToken(token: string): ParsedNote {
 
     // 提取时值修饰符
     if (token.length > 1) {
-      const match = token.match(/^([0-\-])(.+)$/);
+      const match = token.match(/^([-0])(.+)$/);
       if (match) {
         restPart = match[1];
         durationModifiers = parseDurationModifiers(match[2]);
@@ -220,6 +241,20 @@ function parseJianpuToken(token: string): ParsedNote {
         accidental: (accidental as '#' | 'b' | 'n') || '',
         octaveModifier: calculateOctaveModifier(octave),
         durationModifiers: [fraction, ...parseDurationModifiers(otherModifiers)],
+        isRest: false,
+        specialSymbol: undefined
+      };
+    }
+
+    // 尝试第三种格式：数字形式的时值修饰符，如 5'2 (表示高八度的 5，二分音符)
+    const match3 = token.match(/^([1-7])([#bn]?)([',]*)(\d+)([-_=.]*)$/);
+    if (match3) {
+      const [, digit, accidental, octave, durationNumber, otherModifiers] = match3;
+      return {
+        digit: parseInt(digit, 10),
+        accidental: (accidental as '#' | 'b' | 'n') || '',
+        octaveModifier: calculateOctaveModifier(octave),
+        durationModifiers: [durationNumber, ...parseDurationModifiers(otherModifiers)],
         isRest: false,
         specialSymbol: undefined
       };

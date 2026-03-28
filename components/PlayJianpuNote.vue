@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
   conversionOptions: () => ({
     key: 'C',
     meter: '4/4',
-    tempo: '1/4=120',
+    tempo: '120',
     unitNoteLength: '1/4',
     title: 'Jianpu Notation',
     baseNote: 'C4'
@@ -40,7 +40,6 @@ const abcString = computed(() => {
   if (!props.notes || !props.notes.trim()) {
     return ''
   }
-  console.log('Converting jianpu to ABC:', props.notes, props.conversionOptions)
   try {
     return jianpuToAbc(props.notes, props.conversionOptions)
   } catch (err) {

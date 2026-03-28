@@ -4,11 +4,11 @@ title: 开始
 
 The world is not beautiful. Therefore, it is. -《奇诺之旅》
 
+## AnyNote 测试
+
+<AnyNote />
+
 ## 播放音符测试
-
-
-
-
 <PlayJianpuNote notes="6/2 1'/2 |
 2' 2'/2 1'/2 2'/2 3'/4 2'/4 1'/2 2'/2  |
 3'/2 5'/2 5'/2 6'/2 3'  3'/2 5'/2 |
@@ -35,7 +35,7 @@ C52 z |" :show-sheet-music="true"/>
 T:人生如棋
 M:4/4
 L:1/4
-Q:1/4=120
+Q:120
 K:C
 A/2 c/2 |
 d d/2 c/2 d/2 e/4 d/4 c/2 d/2 |

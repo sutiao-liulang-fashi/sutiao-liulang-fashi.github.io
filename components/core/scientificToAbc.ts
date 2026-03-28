@@ -8,7 +8,7 @@ export interface ConversionOptions {
   key?: string;
   /** 拍号，默认 4/4 */
   meter?: string;
-  /** 速度，默认 1/4=120 */
+  /** 速度，默认 120 */
   tempo?: string;
   /** 记录单位，默认 1/4 */
   unitNoteLength?: string;
@@ -50,7 +50,7 @@ export function scientificToAbc(
   const {
     key = 'C',
     meter = '4/4',
-    tempo = '1/4=120',
+    tempo = '120',
     unitNoteLength = '1/4',
     title = 'Scientific Notation'
   } = options;

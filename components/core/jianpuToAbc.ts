@@ -8,7 +8,7 @@ export interface ConversionOptions {
   key?: string;
   /** 拍号，默认 4/4 */
   meter?: string;
-  /** 速度，默认 1/4=120 */
+  /** 速度，默认 120 */
   tempo?: string;
   /** 记录单位，默认 1/4 */
   unitNoteLength?: string;
@@ -53,7 +53,7 @@ export function jianpuToAbc(
   const {
     key = 'C',
     meter = '4/4',
-    tempo = '1/4=120',
+    tempo = '120',
     unitNoteLength = '1/4',
     title = 'Jianpu Notation',
     baseNote = 'C4'
@@ -401,6 +401,11 @@ const scaleDegreeToSemitone: Record<number, number> = {
 };
 
 /**
+ * 大调音阶偏移（相对于基音）
+ */
+const majorScaleOffset = [0, 2, 4, 5, 7, 9, 11];
+
+/**
  * 简谱数字到半音偏移（相对于C）
  */
 const digitToSemitoneOffset: Record<string, number> = {
@@ -412,6 +417,34 @@ const digitToSemitoneOffset: Record<string, number> = {
   '6': 9,  // A
   '7': 11  // B
 };
+
+/**
+ * 音名数组（按半音排列）
+ */
+const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+/**
+ * 获取音名的半音位置
+ */
+function getNoteSemitone(noteName: string): number {
+  return noteNames.indexOf(noteName);
+}
+
+/**
+ * 获取升降号的偏移
+ */
+function getAccidentalOffset(accidental: string): number {
+  switch (accidental) {
+    case '#':
+      return 1;
+    case 'b':
+      return -1;
+    case 'n':
+      return 0;
+    default:
+      return 0;
+  }
+}
 
 /**
  * 解析基音（例如 C4 → 音名=C, 八度=4）
@@ -491,65 +524,40 @@ function convertJianpuNoteToAbc(note: ParsedJianpuNote, baseNote: string): strin
   // 解析基音
   const { noteName: baseNoteName, octave: baseOctave } = parseBaseNote(baseNote);
 
-  // 计算简谱数字对应的音名
-  const targetNoteName = digitToNoteName[note.digit];
+  // 计算基音的半音位置
+  const baseSemitone = getNoteSemitone(baseNoteName);
 
-  // 计算半音偏移
-  const baseSemitone = noteNameToSemitoneOffset[baseNoteName];
-  const targetSemitone = digitToSemitoneOffset[note.digit];
+  // 获取大调音阶偏移
+  const scaleOffset = majorScaleOffset[note.digit - 1];
 
-  // 计算半音差
-  let semitoneDiff = targetSemitone - baseSemitone;
+  // 获取升降号的偏移
+  const accidentalOffset = getAccidentalOffset(note.accidental);
 
-  // 应用升降号到半音差
-  if (note.accidental === '#') {
-    semitoneDiff += 1;
-  } else if (note.accidental === 'b') {
-    semitoneDiff -= 1;
-  }
-
-  // 计算实际的半音位置
-  const actualSemitone = (baseSemitone + semitoneDiff + 12) % 12;
+  // 计算目标音符的半音位置
+  let targetSemitone = (baseSemitone + scaleOffset + accidentalOffset) % 12;
+  if (targetSemitone < 0) targetSemitone += 12;
 
   // 获取ABC音名（已包含升降号）
-  let abcNoteName = semitoneOffsetToNoteName[actualSemitone];
+  let abcNoteName = semitoneOffsetToNoteName[targetSemitone];
 
   // 如果简谱有降号，需要将升号转换为降号
   if (note.accidental === 'b') {
-    // 例如：D#降号应该是Eb (^D -> _E)
     abcNoteName = convertSharpToFlat(abcNoteName);
   }
 
   // 计算八度
-  // 简化的八度计算逻辑
-  // 1. 基于简谱数字和基音数字计算音级差异
-  // 2. 考虑升降号对八度的影响
-  // 3. 加上简谱的八度偏移（' 和 ,）
+  let octave = baseOctave + note.octaveOffset;
 
-  const targetScaleDegree = parseInt(note.digit, 10);
-  const baseScaleDegree = digitToScaleDegree[baseNoteName];
-
-  // 基础八度偏移（来自 ' 和 ,）
-  let octaveChange = note.octaveOffset;
-
-  // 根据音级差异调整八度
-  // 如果目标音级比基音低，可能需要降低八度
-  // 如果目标音级比基音高，可能需要提高八度
-  // 但这个调整需要考虑实际的半音位置
-
-  // 计算音级差异
-  const scaleDegreeDiff = targetScaleDegree - baseScaleDegree;
-
-  // 如果升降号导致跨越八度边界，需要调整八度
-  // 例如：简谱 7（B4）到 1'（C5）是正常的八度变化
-  // 但是如果有升降号，可能需要调整
-
-  // 简化处理：直接使用简谱的八度偏移
-  // 因为简谱的 ' 和 已经明确表示了八度变化
-  const actualOctave = baseOctave + octaveChange;
+  // 检查是否跨越八度边界（例如：B# 应该是 C5，而不是 B4#）
+  const originalSemitone = (baseSemitone + scaleOffset) % 12;
+  if (note.accidental === '#' && originalSemitone >= 11) {
+    // B# → C5
+    abcNoteName = 'C';
+    octave += 1;
+  }
 
   // 转换八度
-  let abcNote = convertOctave(abcNoteName, actualOctave);
+  let abcNote = convertOctave(abcNoteName, octave);
 
   // 添加时值修饰符
   if (note.durationModifiers.length > 0) {

@@ -370,7 +370,7 @@ Abc Fields and their usage:
 | [N:notes](https://abcnotation.com/wiki/abc:standard:v2.1#nnotes) | yes | yes | yes | yes | string | N:see also O'Neills - 234 |
 | [O:origin](https://abcnotation.com/wiki/abc:standard:v2.1#oorigin) | yes | yes |  |  | string | O:UK; Yorkshire; Bradford |
 | [P:parts](https://abcnotation.com/wiki/abc:standard:v2.1#pparts) |  | yes | yes | yes | instruction | P:A, P:ABAC, P:(A2B)3 |
-| [Q:tempo](https://abcnotation.com/wiki/abc:standard:v2.1#qtempo) |  | yes | yes | yes | instruction | Q:"allegro" 1/4=120 |
+| [Q:tempo](https://abcnotation.com/wiki/abc:standard:v2.1#qtempo) |  | yes | yes | yes | instruction | Q:"allegro" 120 |
 | [R:rhythm](https://abcnotation.com/wiki/abc:standard:v2.1#rrhythm) | yes | yes | yes | yes | string | R:R, R:reel |
 | [r:remark](https://abcnotation.com/wiki/abc:standard:v2.1#comments_and_remarks) | yes | yes | yes | yes | - | r:I love abc |
 | [S:source](https://abcnotation.com/wiki/abc:standard:v2.1#bdfsbackground_information) | yes | yes |  |  | string | S:collected in Brittany |
@@ -390,8 +390,8 @@ Certain instruction-type [information fields](https://abcnotation.com/wiki/abc:s
 * Example: * The second `I:linebreak` instruction overrides the first.
 ```
 
-I:linebreak 
-I:linebreak 
+I:linebreak
+I:linebreak
 ```
 
 * Comment: * The above example should not generate an error message. The user may legitimately wish to test the effect of two such instructions; having them both makes switching from one to another easy just by changing their order.
@@ -456,7 +456,7 @@ This means: play the tune as if `Q:5/4=40` was written, but print the tempo indi
 The tempo definition may be preceded or followed by an optional [text string](https://abcnotation.com/wiki/abc:standard:v2.1#text_string_definition), enclosed by quotes, e.g.
 ```
 
-Q: "Allegro" 1/4=120
+Q: "Allegro" 120
 Q: 3/8=50 "Slowly"
 ```
 
@@ -474,7 +474,7 @@ Typically the `Z:` field contains the name(s) of the person(s) who transcribed t
 * Example: * Simple transcription notes.
 ```
 
-Z:John Smith, 
+Z:John Smith,
 ```
 
 However, it has also taken over the role of the `%%abc-copyright` and `%%abc-edited-by` since they have been [deprecated](https://abcnotation.com/wiki/abc:standard:v2.1#outdated_syntax) (see [outdated directives](https://abcnotation.com/wiki/abc:standard:v2.1#outdated_directives)).
@@ -1291,7 +1291,7 @@ X:1
 T:Zocharti Loch
 C:Louis Lewandowski (1821-1894)
 M:C
-Q:1/4=76
+Q:76
 %%score (T1 T2) (B1 B2)
 V:T1           clef=treble-8  name="Tenore I"   snm="T.I"
 V:T2           clef=treble-8  name="Tenore II"  snm="T.II"
@@ -1723,7 +1723,7 @@ Strictly speaking, abc applications don't have to conform to the same set of [st
 Basic syntax:
 ```
 
-%%score   ... 
+%%score   ...
 ```
 
 The score directive specifies which voices should be printed in the score and how they should be grouped on the staves.
@@ -1781,7 +1781,7 @@ If the voice ID is omitted, the instrument is assigned to the current voice.
 
 M:C
 L:1/8
-Q:1/4=66
+Q:66
 K:C
 V:Rueckpos
 %%MIDI voice instrument=53 bank=2
@@ -1824,14 +1824,14 @@ The following directives should be self-explanatory.
 * VOLATILE: * See the [section 11 disclaimer](https://abcnotation.com/wiki/abc:standard:v2.1#disclaimer).
 ```
 
-%%pageheight       
-%%pagewidth        
-%%topmargin        
-%%botmargin        
-%%leftmargin       
-%%rightmargin      
-%%indent           
-%%landscape        
+%%pageheight
+%%pagewidth
+%%topmargin
+%%botmargin
+%%leftmargin
+%%rightmargin
+%%indent
+%%landscape
 ```
 
 11.4.2 Font directives
@@ -1839,15 +1839,15 @@ The following directives should be self-explanatory.
 PostScript and PDF are the standard file formats for distributing printable material. For portability reasons, typesetters will use the PostScript font names. The size parameter should be an integer, but is optional.
 ```
 
-%%titlefont          
-%%subtitlefont       
-%%composerfont       
-%%partsfont          
-%%tempofont          
+%%titlefont
+%%subtitlefont
+%%composerfont
+%%partsfont
+%%tempofont
 %%gchordfont          % for chords symbols
 %%annotationfont      % for "^..." annotations
-%%infofont           
-%%textfont           
+%%infofont
+%%textfont
 %%vocalfont           % for w:
 %%wordsfont           % for W:
 ```
@@ -1855,35 +1855,35 @@ PostScript and PDF are the standard file formats for distributing printable mate
 The specifiers `$1`, `$2`, `$3` and `$4` can be used to change the font within a [text string](https://abcnotation.com/wiki/abc:standard:v2.1#text_string_definition). The font to be used can be specified with the `%%setfont-n` directives. `$0` resets the font to its default value. `$$` gives an actual dollar sign.
 ```
 
-%%setfont-1          
-%%setfont-2          
-%%setfont-3          
-%%setfont-4          
+%%setfont-1
+%%setfont-2
+%%setfont-3
+%%setfont-4
 ```
 
 11.4.3 Space directives
 * VOLATILE: * See the [section 11 disclaimer](https://abcnotation.com/wiki/abc:standard:v2.1#disclaimer).
 ```
 
-%%topspace         
-%%titlespace       
-%%subtitlespace    
-%%composerspace    
+%%topspace
+%%titlespace
+%%subtitlespace
+%%composerspace
 %%musicspace        % between composer and 1st staff
-%%partsspace       
-%%vocalspace       
-%%wordsspace       
-%%textspace        
-%%infospace        
+%%partsspace
+%%vocalspace
+%%wordsspace
+%%textspace
+%%infospace
 %%staffsep          % between systems
 %%sysstaffsep       % between staves in the same system
-%%barsperstaff     
+%%barsperstaff
 %%parskipfac        % space between parts
 %%lineskipfac       % space between lines of text
-%%stretchstaff     
-%%stretchlast      
+%%stretchstaff
+%%stretchlast
 %%maxshrink         % shrinking notes
-%%scale            
+%%scale
 ```
 
 11.4.4 Measure directives
@@ -1893,7 +1893,7 @@ The specifiers `$1`, `$2`, `$3` and `$4` can be used to change the font within a
 %%measurefirst      % number of first measure
 %%barnumbers        % bar numbers every 'n' measures
 %%measurenb         % same as %%barnumbers
-%%measurebox       
+%%measurebox
 %%setbarnb          % set measure number
 ```
 
@@ -1902,10 +1902,10 @@ The specifiers `$1`, `$2`, `$3` and `$4` can be used to change the font within a
 The following directives can be used for inserting [typeset text](https://abcnotation.com/wiki/abc:standard:v2.1#typeset_text_definition) within an [abc file](https://abcnotation.com/wiki/abc:standard:v2.1#abc_file_definition).
 ```
 
-%%text             
-%%center           
+%%text
+%%center
 %%begintext
-%%...              
+%%...
 %%endtext
 ```
 
@@ -1953,14 +1953,14 @@ See [further information about directives](https://abcnotation.com/wiki/abc:stan
 * VOLATILE: * See the [section 11 disclaimer](https://abcnotation.com/wiki/abc:standard:v2.1#disclaimer).
 ```
 
-%%exprabove        
-%%exprbelow        
+%%exprabove
+%%exprbelow
 %%graceslurs        % grace notes slur to main note
 %%infoline          % rhythm and origin on the same line
-%%oneperpage       
-%%vocalabove       
+%%oneperpage
+%%vocalabove
 %%freegchord        % print '#', 'b' and '=' as they are
-%%printtempo       
+%%printtempo
 ```
 
 The default value for these directives is false.

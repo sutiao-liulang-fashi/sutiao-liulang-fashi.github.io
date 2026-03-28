@@ -137,11 +137,15 @@ export class AbcAudioPlayer {
    * 停止播放
    */
   stop(): void {
-    if (this.synthController) {
-      this.synthController.stop()
-      this.isPlayingState = false
-      this.onStopCallback?.()
+    if (this.synthController && typeof this.synthController.stop === 'function') {
+      try {
+        this.synthController.stop()
+      } catch (error) {
+        console.error('停止播放时出错:', error)
+      }
     }
+    this.isPlayingState = false
+    this.onStopCallback?.()
   }
 
   /**
@@ -197,6 +201,96 @@ export class AbcAudioPlayer {
    */
   onStop(callback: () => void): void {
     this.onStopCallback = callback
+  }
+
+  /**
+   * 更新当前要播放的 ABC 字符串（但不自动播放）
+   * @param abcString ABC 记谱法字符串
+   */
+  async update(abcString: string): Promise<void> {
+    if (!abcString || !this.hiddenContainer) {
+      throw new Error('ABC 字符串或容器为空')
+    }
+
+    try {
+      // 停止当前播放
+      if (this.synthController && typeof this.synthController.stop === 'function') {
+        try {
+          this.synthController.stop()
+        } catch (error) {
+          console.error('停止播放时出错:', error)
+        }
+      }
+      this.isPlayingState = false
+
+      // 初始化音频上下文
+      await this.initAudioContext()
+
+      // 等待 AudioContext 完全准备好
+      if (this.audioContext && this.audioContext.state === 'suspended') {
+        await this.audioContext.resume()
+      }
+
+      // 清空容器
+      this.hiddenContainer.innerHTML = ''
+
+      // 等待容器清空完成
+      await new Promise(resolve => setTimeout(resolve, 50))
+
+      // 创建合成器控制器
+      this.synthController = new ABCJS.synth.SynthController()
+
+      // 创建游标控制器
+      const cursorControl: ABCJS.synth.CursorControl = {
+        onBeat: (beatNumber: number, totalBeats: number, totalTime: number) => {
+          // 不需要处理
+        },
+        onEvent: (event: any) => {
+          // ABCJS 的事件结构
+          if (event && event.midiPitches && event.midiPitches.length > 0) {
+            // 可以在这里处理音符事件
+          }
+        },
+        onFinished: () => {
+          this.isPlayingState = false
+          this.onStopCallback?.()
+        }
+      }
+
+      // 使用 abcjs 渲染到隐藏容器
+      const visualObjs = ABCJS.renderAbc(this.hiddenContainer, abcString, {
+        responsive: 'resize',
+      })
+      const visualObj = visualObjs[0] // 获取第一个（通常只有一个）
+
+      // 等待渲染完成
+      await new Promise(resolve => setTimeout(resolve, 150))
+
+      // 加载（使用音量参数）
+      this.synthController.load(this.hiddenContainer, cursorControl, {
+        soundFontVolumeMultiplier: this.volume,
+      })
+
+      // 等待加载完成
+      await new Promise(resolve => setTimeout(resolve, 200))
+
+      // 设置 tune（但不播放）
+      await this.synthController.setTune(visualObj, false, {})
+    } catch (error) {
+      this.isPlayingState = false
+      throw new Error(`更新失败：${(error as Error).message}`)
+    }
+  }
+
+  /**
+   * 复位到初始状态
+   */
+  reset(): void {
+    this.stop()
+    this.isPlayingState = false
+    if (this.onStopCallback) {
+      this.onStopCallback()
+    }
   }
 
   /**
@@ -300,7 +394,26 @@ export class AbcRenderer {
       await new Promise(resolve => requestAnimationFrame(resolve))
 
       // 获取容器宽度
-      const containerWidth = this.container.clientWidth || 800
+      let containerWidth = this.container.clientWidth || this.container.offsetWidth || 800
+
+      // 如果容器宽度太小，尝试从父元素获取
+      if (containerWidth < 100) {
+        const parent = this.container.parentElement
+        if (parent) {
+          containerWidth = parent.clientWidth || parent.offsetWidth || 800
+        }
+      }
+
+      // 如果宽度仍然太小，尝试从祖父元素获取
+      if (containerWidth < 100) {
+        const grandParent = this.container.parentElement?.parentElement
+        if (grandParent) {
+          containerWidth = grandParent.clientWidth || grandParent.offsetWidth || 800
+        }
+      }
+
+      // 确保最小宽度为 800，以保持一致性
+      containerWidth = Math.max(containerWidth, 800)
 
       // 合并选项
       const renderOptions: ABCJS.RenderOptions = {
@@ -362,6 +475,20 @@ export class AbcRenderer {
       this.container.innerHTML = ''
     }
     this.currentAbcString = ''
+  }
+
+  /**
+   * 更新渲染（与 render 相同，但提供更好的语义）
+   * @param abcString ABC 记谱法字符串
+   * @param options 渲染选项
+   * @param showTitle 是否显示标题（如果未指定，自动检测）
+   */
+  async update(
+    abcString: string,
+    options?: ABCJS.RenderOptions,
+    showTitle?: boolean
+  ): Promise<void> {
+    return this.render(abcString, options, showTitle)
   }
 
   /**
