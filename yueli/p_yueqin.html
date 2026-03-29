@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html  lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg">
+    <script>
+    ;(function () {
+      const prefersDark =
+        window.matchMedia &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+      const setting = localStorage.getItem('vueuse-color-scheme') || 'auto'
+      if (setting === 'dark' || (prefersDark && setting !== 'light'))
+        document.documentElement.classList.toggle('dark', true)
+    })()
+    </script>
+  <style type="text/css">
+    :root { color-scheme: light dark; --va-c-bg: #fff; }
+    html.dark { --va-c-bg: #000; }
+    html { background-color: var(--va-c-bg); }
+  </style><style id="valaxy-fouc">body{opacity:0!important}</style><style>body{transition:opacity .15s ease}</style><noscript><style>body{opacity:1!important}</style></noscript><script>(function foucGuardScript(maxDuration) {
+  var done = 0;
+  function reveal() {
+    if (done) return;
+    done = 1;
+    var s = document.getElementById("valaxy-fouc");
+    if (s) s.remove();
+  }
+  function check() {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+    for (var i = 0; i < links.length; i++) {
+      if (!links[i].sheet) return;
+    }
+    reveal();
+  }
+  new MutationObserver(check).observe(document.head, {
+    childList: true,
+    attributes: true,
+    attributeFilter: ["media", "rel"]
+  });
+  addEventListener("load", reveal);
+  if (maxDuration)
+    setTimeout(reveal, maxDuration);
+})(5000)</script>
+    <script>
+    const locale = localStorage.getItem('valaxy-locale') || 'zh-CN';
+    document.documentElement.setAttribute('lang', locale);
+    </script>
+    
+  <script type="module" crossorigin src="/assets/index.BZ6hnUwN.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime.CYVBeYYp.js">
+  <link rel="modulepreload" crossorigin href="/assets/framework.BQkCPPpt.js">
+  <link rel="modulepreload" crossorigin href="/assets/chunks/vue-i18n.vTFSufhp.js">
+  <link rel="modulepreload" crossorigin href="/assets/chunks/dayjs.DwLr60RS.js">
+  <link rel="modulepreload" crossorigin href="/assets/chunks/pinia.BSRpRlTM.js">
+  <link rel="modulepreload" crossorigin href="/assets/chunks/vue-router.CTGJ9cB7.js">
+  <link rel="modulepreload" crossorigin href="/assets/theme.Bt_yc7lh.js">
+  <link rel="modulepreload" crossorigin href="/assets/chunks/nprogress.D5yedX_s.js">
+  <link rel="stylesheet" crossorigin href="/assets/style.DndoTTOW.css">
+<link rel="preload" href="/assets/KaTeX_AMS-Regular.BQhdFMY1.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_AMS-Regular.DMm9YOAa.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Caligraphic-Bold.Dq_IR9rO.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Caligraphic-Bold.BEiXGLvX.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Caligraphic-Regular.Di6jR-x-.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Caligraphic-Regular.CTRA-rTL.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Fraktur-Bold.CL6g_b3V.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Fraktur-Bold.BsDP51OF.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Fraktur-Regular.CTYiF6lA.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Fraktur-Regular.Dxdc4cR9.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Main-Bold.Cx986IdX.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Main-Bold.Jm3AIy58.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Main-BoldItalic.DxDJ3AOS.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Main-BoldItalic.SpSLRI95.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Main-Italic.NWA7e6Wa.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Main-Italic.BMLOBm91.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Main-Regular.B22Nviop.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Main-Regular.Dr94JaBh.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Math-BoldItalic.CZnvNsCZ.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Math-BoldItalic.iY-2wyZ7.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Math-Italic.t53AETM-.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Math-Italic.DA0__PXp.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_SansSerif-Bold.D1sUS0GD.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_SansSerif-Bold.DbIhKOiC.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_SansSerif-Italic.C3H0VqGB.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_SansSerif-Italic.DN2j7dab.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_SansSerif-Regular.DDBCnlJ7.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_SansSerif-Regular.CS6fqUqJ.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Script-Regular.D3wIWfF6.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Script-Regular.D5yQViql.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Size1-Regular.mCD8mA8B.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Size1-Regular.C195tn64.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Size2-Regular.Dy4dx90m.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Size2-Regular.oD1tc_U0.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Size3-Regular.CTq5MqoE.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Size4-Regular.Dl5lxZxV.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Size4-Regular.BF-4gkZK.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Typewriter-Regular.CO6r4hn1.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/KaTeX_Typewriter-Regular.C0xS9mPB.woff" as="font" type="font/woff" crossorigin>
+<link rel="modulepreload" crossorigin href="/assets/theme.Bt_yc7lh.js">
+<link rel="preload" href="/assets/valaxy-logo.DPa8-qbg.png" as="image">
+<link rel="modulepreload" crossorigin href="/assets/p_yueqin.DhJptYZU.js">
+<link rel="modulepreload" crossorigin href="/assets/YueLiNotesPlayground.DGceZHoj.js">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>薯条流浪法师</title>
+<meta property="og:locale:alternate" content="en">
+<meta name="description" content="薯条流浪法师的个人小屋">
+<meta property="og:description" content="薯条流浪法师的个人小屋">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:site_name" content="薯条流浪法师">
+<meta property="og:title" content="薯条流浪法师">
+<meta property="og:image" content="/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sutiao-liulang-fashi.github.io/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="generator" content="Valaxy 0.28.1">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <div id="app"><!--[--><!--[--><!----><!--[--><!--]--><!----><!--]--><div class="layout antialiased"><nav w="full" class="press-nav relative md:fixed md:z-99 font-bold"><div class="pr-navbar flex justify-between items-center pl-4 pr-2 has-sidebar"><a href="/" class="text-xl flex justify-center items-center font-black gradient-text from-purple-800 to-blue-500 bg-gradient-to-r" aria-label="薯条流浪法师"><!--v-if--><span class="inline-flex">薯条流浪法师</span></a><div class="self-stretch flex justify-center items-center text-sm leading-5"><!----><div class="flex lt-md:hidden" h="full" p="x-2"><!--[--><!--]--></div><div class="flex items-center lt-lg:hidden" h="full" p="x-2"><!--[--><!-- Flyout mode: reuse PressNavItemGroup dropdown pattern --><!--[--><!-- Legacy toggle mode: no locales config --><button title="切换语言" data-v-5831e873><div i-ri-translate class="transition transform" data-v-5831e873></div></button><!--]--><!--]--></div><div class="inline-flex items-center lt-lg:hidden" p="x-2"><button class="switch switch-appearance" type="button" aria-label="Toggle Dark Mode" data-v-04afd0f3><span class="check" data-v-04afd0f3><span class="icon-wrap" data-v-04afd0f3><div class="icon" i-ri-sun-line data-v-04afd0f3></div></span></span></button></div><div class="pr-social-links pr-nav-bar-social-links" p="x-2" data-v-4030dd5a data-v-1cadd8e1><!--[--><!--]--></div><button type="button" class="pr-NavBarHamburger" aria-label="mobile navigation" aria-expanded="false" aria-controls="pr-NavScreen" data-v-d4e74285><span class="container" data-v-d4e74285><span class="top" data-v-d4e74285></span><span class="middle" data-v-d4e74285></span><span class="bottom" data-v-d4e74285></span></span></button></div></div><!----></nav><div class="press-local-nav" data-v-63d2c50c><button class="menu" aria-expanded="false" aria-controls="pr-sidebar-nav" data-v-63d2c50c><div i-ri-align-left class="menu-icon" data-v-63d2c50c></div><span class="menu-text" data-v-63d2c50c>菜单</span></button><div class="VPLocalNavOutlineDropdown" style="--vp-vh:0px;" data-v-63d2c50c data-v-84c26161><button data-v-84c26161>返回顶部</button><!----></div></div><!--[--><aside class="press-sidebar shadow-lg"><div text="left" m="2"><!--[--><ul class="category-list"><div class="VPSidebarItem level-0 is-link" p="t-2" border="t t-$pr-c-divider-light" data-v-a8031b1b><div class="press-sidebar-item item" data-v-a8031b1b><div class="indicator" data-v-a8031b1b></div><a href="/start/" class="va-link link" tag="a" data-v-a8031b1b><!--[--><!-- eslint-disable-next-line vue/no-v-text-v-html-on-component --><p class="text ml-1" data-v-a8031b1b>开始</p><!--]--></a><!--v-if--></div><!--v-if--></div></ul><ul class="category-list"><section class="VPSidebarItem level-0 collapsible" p="t-2" border="t t-$pr-c-divider-light" data-v-a8031b1b><div class="press-sidebar-item item" role="button" tabindex="0" data-v-a8031b1b><div class="indicator" data-v-a8031b1b></div><!--[--><!-- eslint-disable-next-line vue/no-v-text-v-html-on-component --><h2 class="text ml-1" data-v-a8031b1b>乐理</h2><!--]--><button tabindex="0" role="button" aria-label="toggle section" class="caret folder-action inline-flex cursor-pointer" data-v-a8031b1b><div i-ri-folder-reduce-line data-v-a8031b1b></div></button></div><div class="items" data-v-a8031b1b><!--[--><div class="VPSidebarItem level-1 is-link" data-v-a8031b1b data-v-a8031b1b><div class="press-sidebar-item item" data-v-a8031b1b><div class="indicator" data-v-a8031b1b></div><a href="/yueli/" class="va-link link" tag="a" data-v-a8031b1b><!--[--><!-- eslint-disable-next-line vue/no-v-text-v-html-on-component --><p class="text ml-1" data-v-a8031b1b>介绍</p><!--]--></a><!--v-if--></div><!--v-if--></div><div class="VPSidebarItem level-1 is-link" data-v-a8031b1b data-v-a8031b1b><div class="press-sidebar-item item" data-v-a8031b1b><div class="indicator" data-v-a8031b1b></div><a href="/yueli/ABCNotation/" class="va-link link" tag="a" data-v-a8031b1b><!--[--><!-- eslint-disable-next-line vue/no-v-text-v-html-on-component --><p class="text ml-1" data-v-a8031b1b>ABC 乐谱</p><!--]--></a><!--v-if--></div><!--v-if--></div><div class="VPSidebarItem level-1 is-link" data-v-a8031b1b data-v-a8031b1b><div class="press-sidebar-item item" data-v-a8031b1b><div class="indicator" data-v-a8031b1b></div><a href="/yueli/playground/" class="va-link link" tag="a" data-v-a8031b1b><!--[--><!-- eslint-disable-next-line vue/no-v-text-v-html-on-component --><p class="text ml-1" data-v-a8031b1b>游乐场</p><!--]--></a><!--v-if--></div><!--v-if--></div><div class="VPSidebarItem level-1 is-link" data-v-a8031b1b data-v-a8031b1b><div class="press-sidebar-item item" data-v-a8031b1b><div class="indicator" data-v-a8031b1b></div><a aria-current="page" href="/yueli/p_yueqin/" class="router-link-active router-link-exact-active va-link link" tag="a" data-v-a8031b1b><!--[--><!-- eslint-disable-next-line vue/no-v-text-v-html-on-component --><p class="text ml-1" data-v-a8031b1b>月琴</p><!--]--></a><!--v-if--></div><!--v-if--></div><!--]--></div></section></ul><!--]--></div></aside><!--]--><!----><!--[--><main class="press-main flex has-sidebar" data-v-5431fe00><div w="full" flex="~" class="px-6 md:pl-12 has-aside relative" p="t-4" data-v-5431fe00><div class="container" flex="~ grow" justify="between" data-v-5431fe00><!--[--><div w="full" class="vp-doc content" flex="~ col grow" p="lt-md:0" data-v-5431fe00><!--[--><!--]--><!--[--><!--]--><!--[--><!--[--><!--]--><article class="markdown-body mx-auto w-full max-w-4xl" data-v-5431fe00><!--[--><!----><!--[--><hr><h2 id="title-月琴" tabindex="-1">title: 月琴 <a class="header-anchor" href="#title-月琴" aria-label="Permalink to &quot;title: 月琴&quot;">​</a></h2><div class="any-note" data-v-9c4a7731><!-- 参数选择器 --><div class="options-section" data-v-9c4a7731><!-- 基音选择器 --><div class="option-item" data-v-9c4a7731><label for="baseNote" data-v-9c4a7731>基音：</label><select id="baseNote" class="option-select" data-v-9c4a7731><!--[--><option value="C3" data-v-9c4a7731>C3</option><option value="C#3" data-v-9c4a7731>C#3</option><option value="D3" data-v-9c4a7731>D3</option><option value="D#3" data-v-9c4a7731>D#3</option><option value="E3" data-v-9c4a7731>E3</option><option value="F3" data-v-9c4a7731>F3</option><option value="F#3" data-v-9c4a7731>F#3</option><option value="G3" data-v-9c4a7731>G3</option><option value="G#3" data-v-9c4a7731>G#3</option><option value="A3" data-v-9c4a7731>A3</option><option value="A#3" data-v-9c4a7731>A#3</option><option value="B3" data-v-9c4a7731>B3</option><option value="C4" data-v-9c4a7731 selected>C4</option><option value="C#4" data-v-9c4a7731>C#4</option><option value="D4" data-v-9c4a7731>D4</option><option value="D#4" data-v-9c4a7731>D#4</option><option value="E4" data-v-9c4a7731>E4</option><option value="F4" data-v-9c4a7731>F4</option><option value="F#4" data-v-9c4a7731>F#4</option><option value="G4" data-v-9c4a7731>G4</option><option value="G#4" data-v-9c4a7731>G#4</option><option value="A4" data-v-9c4a7731>A4</option><option value="A#4" data-v-9c4a7731>A#4</option><option value="B4" data-v-9c4a7731>B4</option><option value="C5" data-v-9c4a7731>C5</option><option value="C#5" data-v-9c4a7731>C#5</option><option value="D5" data-v-9c4a7731>D5</option><option value="D#5" data-v-9c4a7731>D#5</option><option value="E5" data-v-9c4a7731>E5</option><option value="F5" data-v-9c4a7731>F5</option><option value="F#5" data-v-9c4a7731>F#5</option><option value="G5" data-v-9c4a7731>G5</option><option value="G#5" data-v-9c4a7731>G#5</option><option value="A5" data-v-9c4a7731>A5</option><option value="A#5" data-v-9c4a7731>A#5</option><option value="B5" data-v-9c4a7731>B5</option><!--]--></select></div><!-- 拍号选择器 --><div class="option-item" data-v-9c4a7731><label for="meter" data-v-9c4a7731>拍号：</label><select id="meter" class="option-select" data-v-9c4a7731><!--[--><option value="2/4" data-v-9c4a7731>2/4</option><option value="3/4" data-v-9c4a7731>3/4</option><option value="4/4" data-v-9c4a7731 selected>4/4</option><option value="6/8" data-v-9c4a7731>6/8</option><option value="3/8" data-v-9c4a7731>3/8</option><!--]--></select></div><!-- 速度选择器 --><div class="option-item" data-v-9c4a7731><label for="tempo" data-v-9c4a7731>速度：</label><select id="tempo" class="option-select" data-v-9c4a7731><!--[--><option value="60" data-v-9c4a7731>60</option><option value="80" data-v-9c4a7731>80</option><option value="100" data-v-9c4a7731>100</option><option value="120" data-v-9c4a7731 selected>120</option><option value="140" data-v-9c4a7731>140</option><option value="160" data-v-9c4a7731>160</option><!--]--></select></div><!-- 单位音符长度选择器 --><div class="option-item" data-v-9c4a7731><label for="unitNoteLength" data-v-9c4a7731>单位音符：</label><select id="unitNoteLength" class="option-select" data-v-9c4a7731><!--[--><option value="1/1" data-v-9c4a7731>1/1</option><option value="1/2" data-v-9c4a7731>1/2</option><option value="1/4" data-v-9c4a7731 selected>1/4</option><option value="1/8" data-v-9c4a7731>1/8</option><option value="1/16" data-v-9c4a7731>1/16</option><!--]--></select></div><!-- 标题输入框 --><div class="option-item" data-v-9c4a7731><label for="title" data-v-9c4a7731>标题：</label><input id="title" value="" type="text" class="option-input" placeholder="（可选）" data-v-9c4a7731></div></div><!-- 标签切换栏 --><div class="tab-bar" data-v-9c4a7731><button class="active tab-button" data-v-9c4a7731> 简谱 </button><button class="tab-button" data-v-9c4a7731> 科学谱 </button><button class="tab-button" data-v-9c4a7731> ABC谱 </button></div><div class="note-section" data-v-9c4a7731><!-- 简谱部分 --><div class="note-column" style="" data-v-9c4a7731><div class="input-row" data-v-9c4a7731><textarea class="note-input" placeholder="输入简谱..." rows="4" data-v-9c4a7731>
+6/2 1&#39;/2 |
+2&#39; 2&#39;/2 1&#39;/2 2&#39;/2 3&#39;/4 2&#39;/4 1&#39;/2 2&#39;/2  |
+3&#39;/2 5&#39;/2 5&#39;/2 6&#39;/2 3&#39;  3&#39;/2 5&#39;/2 |
+2&#39; 2&#39;/2 1&#39;/2 2&#39;/2 1&#39;/2 1&#39;/2 2&#39;/2 |
+3&#39;2 0 |
+6/2 1&#39;/2 |
+2&#39; 2&#39; 2&#39;/2 3&#39;/4 2&#39;/4 1&#39;/2 2&#39;/2 |
+3&#39;/2 5&#39;/2 5&#39;/2 6&#39;/2 3&#39; 5&#39;/2 3&#39;/2 |
+2&#39; 5&#39;/2 3&#39;/2 2&#39;/2 6/2 6/2 1&#39;/2 |
+1&#39;2 0 |
+</textarea><div class="button-group" data-v-9c4a7731><button class="btn btn-play" data-v-9c4a7731> ▶ 播放 </button><button class="btn btn-stop" disabled data-v-9c4a7731> ⏹ 停止 </button></div></div><div class="abc-string-row" data-v-9c4a7731><div class="abc-string-container" data-v-9c4a7731><h4 data-v-9c4a7731>转换后的 ABC 字符串：</h4><pre class="abc-string" data-v-9c4a7731>X:1
+T:简谱
+M:4/4
+L:1/4
+Q:120
+K:C
+A/2 c/2 |
+d d/2 c/2 d/2 e/4 d/4 c/2 d/2 |
+e/2 g/2 g/2 a/2 e e/2 g/2 |
+d d/2 c/2 d/2 c/2 c/2 d/2 |
+e2 z |
+A/2 c/2 |
+d d d/2 e/4 d/4 c/2 d/2 |
+e/2 g/2 g/2 a/2 e g/2 e/2 |
+d g/2 e/2 d/2 A/2 A/2 c/2 |
+c2 z |</pre></div></div><div class="render-row" data-v-9c4a7731><div class="render-container" data-v-9c4a7731></div></div></div><!-- 科学谱部分 --><div class="note-column" style="display:none;" data-v-9c4a7731><div class="input-row" data-v-9c4a7731><textarea class="note-input" placeholder="输入科学谱..." rows="4" data-v-9c4a7731>A4/2 C5/2 |
+D5 D5/2 C5/2 D5/2 E5/4 D5/4 C5/2 D5/2 |
+E5/2 G5/2 G5/2 A5/2 E5 E5/2 G5/2 |
+D5 D5/2 C5/2 D5/2 C5/2 C5/2 D5/2 |
+E52 z |
+A4/2 C5/2 |
+D5 D5 D5/2 E5/4 D5/4 C5/2 D5/2 |
+E5/2 G5/2 G5/2 A5/2 E5 G5/2 E5/2 |
+D5 G5/2 E5/2 D5/2 A4/2 A4/2 C5/2 |
+C52 z |</textarea><div class="button-group" data-v-9c4a7731><button class="btn btn-play" data-v-9c4a7731> ▶ 播放 </button><button class="btn btn-stop" disabled data-v-9c4a7731> ⏹ 停止 </button></div></div><div class="abc-string-row" data-v-9c4a7731><div class="abc-string-container" data-v-9c4a7731><h4 data-v-9c4a7731>转换后的 ABC 字符串：</h4><pre class="abc-string" data-v-9c4a7731>X:1
+T:科学谱
+M:4/4
+L:1/4
+Q:120
+K:C
+A/2 c/2 |
+d d/2 c/2 d/2 e/4 d/4 c/2 d/2 |
+e/2 g/2 g/2 a/2 e e/2 g/2 |
+d d/2 c/2 d/2 c/2 c/2 d/2 |
+e2 z |
+A/2 c/2 |
+d d d/2 e/4 d/4 c/2 d/2 |
+e/2 g/2 g/2 a/2 e g/2 e/2 |
+d g/2 e/2 d/2 A/2 A/2 c/2 |
+c2 z |</pre></div></div><div class="render-row" data-v-9c4a7731><div class="render-container" data-v-9c4a7731></div></div></div><!-- ABC谱部分 --><div class="note-column" style="display:none;" data-v-9c4a7731><div class="input-row" data-v-9c4a7731><textarea class="note-input" placeholder="输入ABC谱..." rows="4" data-v-9c4a7731>A/2 c/2 |
+d d/2 c/2 d/2 e/4 d/4 c/2 d/2 |
+e/2 g/2 g/2 a/2 e e/2 g/2 |
+d d/2 c/2 d/2 c/2 c/2 d/2 |
+e2 z |
+A/2 c/2 |
+d d d/2 e/4 d/4 c/2 d/2 |
+e/2 g/2 g/2 a/2 e g/2 e/2 |
+d g/2 e/2 d/2 A/2 A/2 c/2 |
+c2 z |</textarea><div class="button-group" data-v-9c4a7731><button class="btn btn-play" data-v-9c4a7731> ▶ 播放 </button><button class="btn btn-stop" disabled data-v-9c4a7731> ⏹ 停止 </button></div></div><div class="abc-string-row" data-v-9c4a7731><div class="abc-string-container" data-v-9c4a7731><h4 data-v-9c4a7731>处理后的 ABC 字符串：</h4><pre class="abc-string" data-v-9c4a7731>X:1
+T:ABC谱
+M:4/4
+L:1/4
+Q:120
+K:C
+A/2 c/2 |
+d d/2 c/2 d/2 e/4 d/4 c/2 d/2 |
+e/2 g/2 g/2 a/2 e e/2 g/2 |
+d d/2 c/2 d/2 c/2 c/2 d/2 |
+e2 z |
+A/2 c/2 |
+d d d/2 e/4 d/4 c/2 d/2 |
+e/2 g/2 g/2 a/2 e g/2 e/2 |
+d g/2 e/2 d/2 A/2 A/2 c/2 |
+c2 z |</pre></div></div><div class="render-row" data-v-9c4a7731><div class="render-container" data-v-9c4a7731></div></div></div></div></div><!--]--><!--[--><!--]--><!--]--><!----><!----></article><!--[--><!--]--><div class="press-doc-footer pb-8 max-w-4xl" w="full" m="auto" data-v-5431fe00 data-v-5a764274><div flex justify="between" items="center" text="sm" data-v-5a764274><a flex items="center" class="decoration-none!" href="https://github.com/sutiao-liulang-fashi/sutiao-liulang-fashi.github.io/edit/main/docs/pages/yueli/p_yueqin.md" target="_blank" rel="noopener noreferrer" data-v-5a764274><div i-ri-external-link-line data-v-5a764274></div><span ml-1 data-v-5a764274>编辑本页</span></a><p class="press-lastUpdated text-right" data-v-5a764274 data-v-c6ad85b2>最后更新于: <time datetime="2026-03-29T08:26:19.000Z" data-v-c6ad85b2></time></p></div><!----></div><!--]--></div><!--[--><!--]--><!--[--><!--]--><!--[--><!--]--><!----><!--[--><!--]--><!--]--><!--[--><!--[--><button class="toc-btn shadow-lg fixed press-icon-btn z-99 lt-md:hidden! xl:hidden!" right="5" bottom="24"><div i-ri-file-list-line></div></button><!----><aside flex="~ col grow" p="l-0 xl:l-8" text="center" z="$" class="press-aside lt-xl:fixed shadow xl:shadow-none xl:hover:shadow-none hover:shadow-lg"><div class="aside-curtain"></div><div class="aside-container lt-xl:fixed" flex="~ col"><div class="aside-content overflow-auto" flex="~ col"><div style="display:none;" data-v-58990ef7><div class="content" data-v-58990ef7><div class="outline-title" data-v-58990ef7>本页</div><div class="outline-marker" data-v-58990ef7></div><nav aria-labelledby="doc-outline-aria-label" data-v-58990ef7><span id="doc-outline-aria-label" class="visually-hidden" data-v-58990ef7> Table of Contents for current page </span><ul class="root va-toc css-i18n-toc va-toc relative z-1 css-i18n-toc" data-v-58990ef7 data-v-ebf72b81><!--[--><!--]--></ul></nav></div></div><div class="flex-grow"></div><!----></div></div></aside><!--]--><!--]--></div></div></main><!--]--><footer class="press-footer has-sidebar" data-v-8934a884><div flex="~ col" class="container" data-v-8934a884><p class="message" data-v-8934a884>Powered by <a href="https://valaxy.site">Valaxy</a></p><!----></div></footer></div><!--]--></div><script>window.__INITIAL_STATE__='{"pinia":{"app":{"showLoading":true},"routerStore":{},"press-app":{}}}'</script><script type="application/ld+json" data-hid="schema-org-graph">{"@context":"https://schema.org","@graph":[{"@id":"https://sutiao-liulang-fashi.github.io/#identity","@type":"Person","name":"VALAXY Developer","url":"https://sutiao-liulang-fashi.github.io/","image":{"@id":"https://sutiao-liulang-fashi.github.io/#/schema/image/1"},"sameAs":[]},{"@id":"https://sutiao-liulang-fashi.github.io/#website","@type":"WebSite","dateModified":"2026-03-29T08:27:11.999Z","datePublished":"2026-03-29T08:27:11.999Z","inLanguage":"zh-CN","url":"https://sutiao-liulang-fashi.github.io/","publisher":{"@id":"https://sutiao-liulang-fashi.github.io/#identity"}},{"@id":"https://sutiao-liulang-fashi.github.io/#webpage","@type":"WebPage","description":"薯条流浪法师的个人小屋","url":"https://sutiao-liulang-fashi.github.io/","about":{"@id":"https://sutiao-liulang-fashi.github.io/#identity"},"isPartOf":{"@id":"https://sutiao-liulang-fashi.github.io/#website"},"potentialAction":[{"@type":"ReadAction","target":["https://sutiao-liulang-fashi.github.io/"]}]},{"@id":"https://sutiao-liulang-fashi.github.io/#/schema/image/1","@type":"ImageObject","contentUrl":"https://valaxy.site/valaxy-logo.png","inLanguage":"zh-CN","url":"https://valaxy.site/valaxy-logo.png"}]}</script>
+  
+</body>
+</html>

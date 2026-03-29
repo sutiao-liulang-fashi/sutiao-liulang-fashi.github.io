@@ -1,0 +1,1 @@
+import{L as e}from"./theme.Bt_yc7lh.js";var t=e({cast(e){return typeof e==`string`?{url:e}:e},defaults:{"@type":`VirtualLocation`}});export{t as virtualLocationResolver};
